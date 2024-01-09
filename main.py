@@ -8,7 +8,7 @@ openai.api_key = OPENAI_TOKEN
 start_message = [{"role": "system", "content": "you are a very smart assistant bot"}]
 role_now = "you are a very smart assistant bot"
 history = {}
-
+client = openai.OpenAI
 @bot.message_handler(commands=['start'])
 def start(message):
     bot.send_message(message.chat.id,
@@ -88,10 +88,9 @@ def main(message):
         print(history)
 
         try:
-            completions = openai.ChatCompletion.create(
+            completions = client.chat.completions.create(
                 model='gpt-3.5-turbo',
                 messages=history[str(message.chat.id)],
-                temperature=0.5
             )
             response = completions['choices'][0]['message']['content']
             history[str(message.chat.id)].append({'role': 'assistant', 'content': response})
