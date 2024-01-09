@@ -8,7 +8,7 @@ openai.api_key = OPENAI_TOKEN
 start_message = [{"role": "system", "content": "you are a very smart assistant bot"}]
 role_now = "you are a very smart assistant bot"
 history = {}
-client = openai.OpenAI
+client = openai.OpenAI()
 @bot.message_handler(commands=['start'])
 def start(message):
     bot.send_message(message.chat.id,
