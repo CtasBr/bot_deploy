@@ -4,7 +4,6 @@ import telebot
 from settings import *
 
 bot = telebot.TeleBot(TOKEN)
-openai.api_key = OPENAI_TOKEN
 start_message = [{"role": "system", "content": "you are a very smart assistant bot"}]
 role_now = "you are a very smart assistant bot"
 history = {}
@@ -92,18 +91,18 @@ def main(message):
                 model='gpt-3.5-turbo',
                 messages=history[str(message.chat.id)],
             )
-            response = completions['choices'][0]['message']['content']
+            response = completions.choices[0].message.content
             history[str(message.chat.id)].append({'role': 'assistant', 'content': response})
             if str(message.chat.id)!='681930364':
                 with open("data_base.txt", 'r') as f:
                     strings = f.read().split("\n")
                     for s in reversed(strings):
                         if f"{message.chat.id}" in s:
-                            print(int(completions["usage"]["total_tokens"]))
-                            count = int(s.split()[-1]) + int(completions["usage"]["total_tokens"])
+                            print(int(completions.usage.total_tokens))
+                            count = int(s.split()[-1]) + int(completions.usage.total_tokens)
                             break
                     else:
-                        count = int(completions["usage"]["total_tokens"])
+                        count = int(completions.usage.total_tokens)
                 with open("data_base.txt", 'a') as f:
                     f.write(f"\n{message.chat.id} {message.from_user.username} {message.from_user.first_name} {count}\n")
                 # print(completions["usage"]["total_tokens"])
