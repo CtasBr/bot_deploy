@@ -87,8 +87,11 @@ def main(message):
         print(history)
 
         try:
+            massage_var = 'gpt-3.5-turbo'
+            if message.text.split()[0] == 'model4':
+                massage_var = 'gpt-4'
             completions = client.chat.completions.create(
-                model='gpt-3.5-turbo',
+                model=massage_var,
                 messages=history[str(message.chat.id)],
             )
             response = completions.choices[0].message.content
